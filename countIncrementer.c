@@ -2,7 +2,7 @@
 #include <stdio.h>
 #define HOTKEY_ID 1
 
-void incDeaths(){
+void incCount(){
     FILE* fp = fopen("deaths.txt", "r+");
     if(fp == NULL){
         fp = fopen("deaths.txt", "w+");
@@ -23,17 +23,16 @@ void incDeaths(){
 }
 
 int main() {
-    //hotkey registry
-    if(!RegisterHotKey(NULL, HOTKEY_ID, 0, VK_F1)){
+    if(!RegisterHotKey(NULL, HOTKEY_ID, 0, VK_SPACE)){
         printf("%s", "Registry failed");
         return 1;
     }
-
+    
     MSG msg;
     while(1){
         if(GetMessage(&msg, NULL, 0, 0)){
             if(msg.message == WM_HOTKEY && msg.wParam == HOTKEY_ID){
-                incDeaths();
+                incCount();
             }
         }
 
@@ -47,5 +46,4 @@ int main() {
     //unregister hotkey before ending
     UnregisterHotKey(NULL, HOTKEY_ID);
     return 0;
-
 }
